@@ -1,0 +1,29 @@
+server:
+  port: 8989
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+      - id: loja
+        uri: lb://loja # nome de registro no eureka server
+        predicates:
+        - Path=/compra/** # @RequestMapping do endpoint
+      - id: fornecedor
+        uri: lb://fornecedor
+        predicates:
+        - Path=/info/**
+      - id: fornecedor
+        uri: lb://fornecedor
+        predicates:
+        - Path=/produto/**
+        
